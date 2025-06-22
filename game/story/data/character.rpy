@@ -45,13 +45,3 @@ init python:
                 self.health = self.health_max
             else:
                 self.health += value
-
-        def reset(self) -> None:
-            """
-            Reset stats.
-            """
-            self.attack_multiplier = 1
-            self.stunned = False
-
-            if self.health > self.health_max:
-                self.health = self.health_max

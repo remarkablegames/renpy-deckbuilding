@@ -3,95 +3,64 @@ init python:
         def __init__(self, **kwargs) -> None:
             super().__init__(**kwargs)
 
-            self.cards = [
+            self.deck = [
                 Card(cost=1, type="attack", value=3),
                 Card(cost=1, type="attack", value=3),
                 Card(cost=2, type="heal", value=3),
                 Card(cost=2, type="heal", value=3),
             ]
 
+            self.draw_pile = []
+            self.discard_pile = []
+            self.hand = []
+
         def get_card(self, card_id: str) -> Card:
             """
             Get card by id.
             """
-            return next((card for card in self.cards if card.id == card_id), None)
+            return find_by_id(self.deck, card_id)
 
-        def get_cards(self) -> list:
+        def draw_cards(self, count=3) -> None:
             """
-            Get all cards.
+            Add cards to hand.
             """
-            return self.cards
+            if not len(self.draw_pile):
+                self.draw_pile = self.deck.copy()
+                renpy.random.shuffle(self.draw_pile)
+
+            for i in range(count):
+                self.hand.append(self.draw_pile.pop(0))
+
+                if not len(self.draw_pile):
+                    self.draw_pile = self.discard_pile.copy()
+                    self.discard_pile = []
+                    renpy.random.shuffle(self.draw_pile)
 
         def discard_card(self, card: Card) -> None:
             """
             Discard card.
             """
-            self.cards.remove(card)
-
-        def action_attack(self) -> None:
-            """
-            Player attack enemy.
-            """
-            attack_skill = self.skills["attack"]
-            energy_cost = attack_skill.energy
-
-            if self.energy < energy_cost:
-                narrator("You don’t have enough energy.")
-                renpy.jump("player_turn")
-            else:
-                renpy.jump("player_attack")
-
-        def action_heal(self) -> None:
-            """
-            Heal player.
-            """
-            heal_skill = self.skills["heal"]
-            energy_cost = heal_skill.energy
-
-            if self.energy < energy_cost:
-                narrator("You don’t have enough energy.")
-            else:
-                self.energy -= energy_cost
-                self.perform_heal(overheal="overheal" in heal_skill.tags)
-                narrator("You healed [player.heal] health.")
-
-            renpy.jump("player_turn")
-
-        def action_life_force(self) -> None:
-            """
-            Player convert health to energy.
-            """
-            health_cost = self.health_max // 4
-
-            if self.health <= health_cost:
-                narrator("You don’t have enough health.")
-            else:
-                self.health -= health_cost
-                self.energy += 1
-
-            renpy.jump("player_turn")
-
-        def action_rage(self) -> None:
-            """
-            Player increase attack multiplier.
-            """
-            energy_cost = self.skills["attack"].energy
-
-            if self.energy < energy_cost:
-                narrator("You don’t have enough energy.")
-            else:
-                self.energy -= energy_cost
-                self.attack_multiplier *= 2
-
-            renpy.jump("player_turn")
+            self.hand.remove(card)
+            self.discard_pile.append(card)
+            renpy.restart_interaction()
 
         def end_turn(self) -> None:
             """
-            Player end turn.
+            End turn.
             """
-            self.attack_multiplier = 1
+            while len(self.hand):
+                self.discard_pile.append(self.hand.pop(0))
 
+            renpy.hide_screen("player_end_turn")
             renpy.jump("enemy_turn")
+
+        def reset(self) -> None:
+            """
+            End battle.
+            """
+            self.draw_pile = []
+            self.discard_pile = []
+            self.hand = []
 
 default player = Player(
     health=15,

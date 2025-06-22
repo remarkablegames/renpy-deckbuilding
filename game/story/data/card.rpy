@@ -14,7 +14,7 @@ init python:
             self.type = kwargs.get("type", "")
             self.value = kwargs.get("value", 0)
 
-        def get_drag_name(self, cards: list) -> str:
+        def get_drag_name(self) -> str:
             """
             Get drag name.
             """
@@ -26,13 +26,13 @@ init python:
             """
             return f"{self.type} {self.value}".capitalize()
 
-        def get_xpos(self, cards: list) -> int:
+        def get_xpos(self) -> int:
             """
             Calculate x-position.
             """
             x = config.screen_width / 2
-            x -= (self.WIDTH + self.OFFSET * (len(cards) - 1)) / 2
-            x += cards.index(self) * self.OFFSET
+            x -= (self.WIDTH + self.OFFSET * (len(player.hand) - 1)) / 2
+            x += player.hand.index(self) * self.OFFSET
             return int(x)
 
         def get_ypos(self) -> int:
@@ -41,11 +41,11 @@ init python:
             """
             return config.screen_height - self.HEIGHT
 
-        def get_pos(self, cards: list) -> int:
+        def get_pos(self) -> int:
             """
             Calculate xy-position.
             """
-            return self.get_xpos(cards), self.get_ypos()
+            return self.get_xpos(), self.get_ypos()
 
         def use(self, target) -> None:
             """
@@ -68,4 +68,3 @@ init python:
                 target.perform_heal(self.value)
 
             player.discard_card(self)
-            renpy.restart_interaction()

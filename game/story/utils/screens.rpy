@@ -15,11 +15,11 @@ screen player_stats():
             null height 15
             text "Money: $[money]"
 
-screen end_turn():
+screen player_end_turn():
     textbutton "End Turn":
         xalign 1.0 yalign 1.0
         background gui.text_color
-        action Jump("enemy_turn")
+        action Function(player.end_turn)
 
 screen enemy_stats0(enemy, xalign_position = 0.5):
     frame:

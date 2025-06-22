@@ -33,7 +33,7 @@ init python:
             """
             Get enemy by id.
             """
-            return next((enemy for enemy in self.enemies if enemy.id == enemy_id), None)
+            return find_by_id(self.enemies, enemy_id)
 
         def dead(self) -> bool:
             """
