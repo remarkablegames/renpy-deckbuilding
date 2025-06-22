@@ -1,6 +1,10 @@
 init python:
+    from uuid import uuid4
+
     class RPGCharacter():
         def __init__(self, **kwargs) -> None:
+            self.id = str(uuid4())
+
             self.name = kwargs.get("name", "")
             self.image = kwargs.get("image", self.name.replace(" ", "_").lower())
 
@@ -25,22 +29,22 @@ init python:
             self.attack = round(renpy.random.randint(self.attack_min, self.attack_max) * self.attack_multiplier)
             self.heal = renpy.random.randint(self.heal_min, self.heal_max)
 
-        def perform_attack(self, target) -> None:
+        def hurt(self, value: int) -> None:
             """
             Attack character.
             """
             renpy.sound.play("sound/punch.ogg", relative_volume=0.5)
-            target.health -= self.attack
+            self.health -= value
 
-        def perform_heal(self, overheal=False) -> None:
+        def perform_heal(self, value: int, overheal=False) -> None:
             """
             Heal character.
             """
             renpy.sound.play("sound/potion.ogg", relative_volume=0.5)
-            if not overheal and self.health + self.heal >= self.health_max:
+            if not overheal and self.health + value >= self.health_max:
                 self.health = self.health_max
             else:
-                self.health += self.heal
+                self.health += value
 
         def reset(self) -> None:
             """

@@ -14,20 +14,9 @@ label reward:
 
             jump reward
 
-        "Increase attack by {color=[colors.attack]}+[reward_attack]":
-            $ player.attack_min += reward_attack
-            $ player.attack_max += reward_attack
-
-        "Increase heal by {color=[colors.heal]}+[reward_heal]" if player.has_skill("heal"):
-            $ player.heal_min += reward_heal
-            $ player.heal_max += reward_heal
-
         "Increase max health by {color=[colors.heal]}+[reward_heal * 2]" if renpy.random.random() < 0.5:
             $ player.health += reward_heal * 2
             $ player.health_max += reward_heal * 2
-
-        "Decrease energy of heal by {color=[colors.energy]}1" if renpy.random.random() < 0.3 and player.has_skill("heal") and player.skills["heal"].energy > 1:
-            $ player.skills["heal"].energy -= 1
 
         "Increase max energy by {color=[colors.energy]}+1" if renpy.random.random() < 0.1:
             $ player.energy_max += 1

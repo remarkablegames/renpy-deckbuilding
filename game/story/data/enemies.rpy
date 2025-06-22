@@ -29,6 +29,12 @@ init python:
 
             renpy.with_statement(dissolve)
 
+        def get(self, enemy_id: str) -> RPGCharacter:
+            """
+            Get enemy by id.
+            """
+            return next((enemy for enemy in self.enemies if enemy.id == enemy_id), None)
+
         def dead(self) -> bool:
             """
             Whether enemies are dead.
@@ -95,11 +101,11 @@ init python:
 
                 if enemy.heal and enemy.health < enemy.health_max and renpy.random.random() < 0.5:
                     narrator(f"{enemy.name} healed {enemy.heal} health.")
-                    enemy.perform_heal()
+                    enemy.perform_heal(enemy.heal)
                 else:
                     narrator(f"{enemy.name} dealt {enemy.attack} damage to you.")
                     renpy.with_statement(vpunch)
-                    enemy.perform_attack(player)
+                    player.hurt(enemy.attack)
 
                     if player.health <= 0:
                         renpy.jump("lose")

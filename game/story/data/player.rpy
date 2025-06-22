@@ -1,79 +1,32 @@
 init python:
-    class Skill:
-        def __init__(self, **kwargs) -> None:
-            self.label_active = kwargs.get("label_active", "")
-            self.label_disabled = kwargs.get("label_disabled", "")
-            self.energy = kwargs.get("energy", 0)
-            self.callback = kwargs.get("callback")
-            self.enabled = kwargs.get("enabled", False)
-            self.tags = kwargs.get("tags", [])
-
     class Player(RPGCharacter):
         def __init__(self, **kwargs) -> None:
             super().__init__(**kwargs)
 
-            self.skills = {
-                "attack": Skill(
-                    callback=self.action_attack,
-                    enabled=True,
-                    energy=1,
-                    label_active="Attack {color=[colors.attack]}[player.attack]{/color}, Energy [emojis.get(player.skills['attack'].energy)]",
-                    label_disabled="{color=[gui.insensitive_color]}Attack [player.attack], Energy [player.skills['attack'].energy]",
-                ),
+            self.cards = [
+                Card(cost=1, type="attack", value=3),
+                Card(cost=1, type="attack", value=3),
+                Card(cost=2, type="heal", value=3),
+                Card(cost=2, type="heal", value=3),
+            ]
 
-                "heal": Skill(
-                    callback=self.action_heal,
-                    energy=2,
-                    label_active="Heal {color=[colors.heal]}[player.heal]{/color}, Energy [emojis.get(player.skills['heal'].energy)]",
-                    label_disabled="{color=[gui.insensitive_color]}Heal [player.heal], Energy [player.skills['heal'].energy]",
-                ),
-
-                "life_force": Skill(
-                    callback=self.action_life_force,
-                    label_active="Energy {color=[colors.energy]}+1{/color}, Health {color=[colors.heal]}-[player.health_max // 4]",
-                    label_disabled="{color=[gui.insensitive_color]}Energy +1, Health -[player.health_max // 4]",
-                ),
-
-                "rage": Skill(
-                    callback=self.action_rage,
-                    energy=1,
-                    label_active="Attack {color=[colors.attack]}x2{/color}, Energy [emojis.get(player.skills['rage'].energy)]",
-                    label_disabled="{color=[gui.insensitive_color]}Attack x2, Energy [player.skills['rage'].energy]",
-                ),
-            }
-
-        def has_skill(self, skill: str) -> bool:
-            return self.skills.get(skill).enabled
-
-        def toggle_skill(self, skill: str, is_enabled: bool) -> None:
-            self.skills.get(skill).enabled = is_enabled
-
-        def display_menu(self) -> None:
+        def get_card(self, card_id: str) -> Card:
             """
-            Display menu for player.
+            Get card by id.
             """
-            narrator("Choose your action.", interact=False)
-            action = renpy.display_menu(self.get_menu_choices())
-            action()
+            return next((card for card in self.cards if card.id == card_id), None)
 
-        def get_menu_choices(self) -> list:
+        def get_cards(self) -> list:
             """
-            Get display menu choices for player.
+            Get all cards.
             """
-            choices = []
+            return self.cards
 
-            for skill in self.skills.values():
-                if skill.enabled:
-                    if skill.callback == self.action_life_force:
-                        skill_label = skill.label_active if self.health > self.health_max // 4 else skill.label_disabled
-                    elif self.energy >= skill.energy:
-                        skill_label = skill.label_active
-                    else:
-                        skill_label = skill.label_disabled
-
-                    choices.append((skill_label, skill.callback))
-
-            return choices + [("End Turn", self.end_turn)]
+        def discard_card(self, card: Card) -> None:
+            """
+            Discard card.
+            """
+            self.cards.remove(card)
 
         def action_attack(self) -> None:
             """
