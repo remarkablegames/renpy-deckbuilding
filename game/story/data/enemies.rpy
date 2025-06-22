@@ -29,11 +29,25 @@ init python:
 
             renpy.with_statement(dissolve)
 
+        def hide(self, enemy: RPGCharacter) -> None:
+            """
+            Hide enemy.
+            """
+            renpy.hide(enemy.image)
+            renpy.with_statement(dissolve)
+            renpy.hide_screen(f"enemy_stats{enemies.index(enemy)}")
+
         def get(self, enemy_id: str) -> RPGCharacter:
             """
             Get enemy by id.
             """
             return find_by_id(self.enemies, enemy_id)
+
+        def index(self, enemy: RPGCharacter) -> int:
+            """
+            Get enemy index.
+            """
+            return self.enemies.index(enemy)
 
         def dead(self) -> bool:
             """

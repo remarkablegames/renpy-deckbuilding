@@ -29,12 +29,12 @@ init python:
                 renpy.random.shuffle(self.draw_pile)
 
             for i in range(count):
-                self.hand.append(self.draw_pile.pop(0))
-
                 if not len(self.draw_pile):
                     self.draw_pile = self.discard_pile.copy()
                     self.discard_pile = []
                     renpy.random.shuffle(self.draw_pile)
+
+                self.hand.append(self.draw_pile.pop(0))
 
         def discard_card(self, card: Card) -> None:
             """
@@ -42,7 +42,6 @@ init python:
             """
             self.hand.remove(card)
             self.discard_pile.append(card)
-            renpy.restart_interaction()
 
         def end_turn(self) -> None:
             """

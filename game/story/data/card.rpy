@@ -54,6 +54,8 @@ init python:
             if player.energy < self.cost:
                 return
 
+            player.discard_card(self)
+
             player.energy -= self.cost
             is_enemy = target != player
 
@@ -66,5 +68,3 @@ init python:
 
             elif self.type == "heal":
                 target.perform_heal(self.value)
-
-            player.discard_card(self)

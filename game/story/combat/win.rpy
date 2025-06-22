@@ -9,6 +9,8 @@ default wins = 0
 
 label win:
 
+    hide screen player_end_turn
+
     "You won the battle!"
 
     $ player.reset()

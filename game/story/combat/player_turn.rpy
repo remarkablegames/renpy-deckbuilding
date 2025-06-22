@@ -1,10 +1,17 @@
 label player_turn:
 
-    $ player.turn_rng()
+    $ player.draw_cards()
 
-    jump player_turn_menu
+    show screen player_end_turn
 
-label player_turn_menu:
+    jump player_hand
+
+label player_hand:
+
+    python:
+        for enemy in enemies.enemies:
+            if renpy.showing(enemy.image) and enemy.health <= 0:
+                enemies.hide(enemy)
 
     if enemies.dead():
         jump win
@@ -12,9 +19,6 @@ label player_turn_menu:
     elif player.health <= 0:
         jump lose
 
-    $ player.draw_cards()
-
-    show screen player_end_turn
     call screen player_hand
 
 init python:
@@ -34,6 +38,8 @@ init python:
         # snap unused card back
         if card in player.hand:
             drag.snap(card.get_xpos(), card.get_ypos(), 0.2)
+
+        renpy.jump("player_hand")
 
 screen player_hand:
     draggroup:
