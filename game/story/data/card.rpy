@@ -5,7 +5,7 @@ init python:
         IMAGE = "card.png"
         WIDTH = 250
         HEIGHT = 350
-        OFFSET = 50
+        OFFSET = 60
 
         def __init__(self, **kwargs) -> None:
             self.id = str(uuid4())

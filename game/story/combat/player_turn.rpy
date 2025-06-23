@@ -22,7 +22,7 @@ label player_hand:
     call screen player_hand
 
 init python:
-    def ondrag(drags, drop):
+    def ondrag(drags, drop) -> None:
         drag = drags[0]
         card_id = drag.drag_name
         card = player.get_card(card_id)
@@ -41,6 +41,9 @@ init python:
 
         renpy.jump("player_hand")
 
+    def onhovered(draggable) -> None:
+        draggable.top()
+
 screen player_hand:
     draggroup:
         for enemy_index, enemy in enumerate(enemies.enemies):
@@ -55,6 +58,7 @@ screen player_hand:
 
         for card in player.hand:
             drag:
+                as draggable
                 drag_name card.id
                 dragged ondrag
                 droppable False
@@ -63,7 +67,11 @@ screen player_hand:
 
                 frame:
                     background Frame(card.IMAGE)
-                    xysize card.WIDTH, card.HEIGHT
                     label card.label_cost()
                     label card.label_description():
                         xalign 0.5 yalign 0.5
+                    xysize card.WIDTH, card.HEIGHT
+
+                    mousearea:
+                        area (0, 0, card.OFFSET, card.HEIGHT)
+                        hovered Function(onhovered, draggable)
