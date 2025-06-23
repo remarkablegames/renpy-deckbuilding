@@ -20,11 +20,17 @@ init python:
             """
             return self.id
 
-        def get_label(self) -> str:
+        def label_cost(self) -> str:
             """
-            Get label.
+            Get cost label.
             """
-            return f"{self.type} {self.value}".capitalize()
+            return emojis.get(self.cost)
+
+        def label_description(self) -> str:
+            """
+            Get description label.
+            """
+            return "{color=[colors.black]}" + f"{self.type} {self.value}".capitalize()
 
         def get_xpos(self) -> int:
             """

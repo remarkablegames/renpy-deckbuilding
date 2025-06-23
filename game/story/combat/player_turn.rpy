@@ -64,6 +64,6 @@ screen player_hand:
                 frame:
                     background Frame(card.IMAGE)
                     xysize card.WIDTH, card.HEIGHT
-                    label emojis.get(card.cost)
-                    label card.get_label():
+                    label card.label_cost()
+                    label card.label_description():
                         xalign 0.5 yalign 0.5
