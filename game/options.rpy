@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("Ren'Py Deckbuilding")
+define config.name = _("Ren'Py Deckbuilder")
 
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -30,7 +30,7 @@ define config.version = "1.0.0-alpha" # x-release-please-version
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
-{a=https://github.com/remarkablegames/renpy-deckbuilding#credits}Credits{/a}
+{a=https://github.com/remarkablegames/renpy-deckbuilder#credits}Credits{/a}
 """)
 
 
@@ -38,7 +38,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "renpy-deckbuilding"
+define build.name = "renpy-deckbuilder"
 
 
 ## Sounds and music ############################################################
@@ -144,7 +144,7 @@ default preferences.afm_time = 15
 ## This generally should not be changed, and if it is, should always be a
 ## literal string, not an expression.
 
-define config.save_directory = "renpy-deckbuilding-1717801209"
+define config.save_directory = "renpy-deckbuilder-1717801209"
 
 
 ## Icon ########################################################################
@@ -207,4 +207,4 @@ init python:
 ## The username and project name associated with an itch.io project, separated
 ## by a slash.
 
-define build.itch_project = "remarkablegames/renpy-deckbuilding"
+define build.itch_project = "remarkablegames/renpy-deckbuilder"

@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/remarkablegames/renpy-deckbuilding/master/game/gui/window_icon.png" alt="Ren'Py Deckbuilding">
+  <img src="https://raw.githubusercontent.com/remarkablegames/renpy-deckbuilder/master/game/gui/window_icon.png" alt="Ren'Py Deckbuilder">
 </p>
 
-# Ren'Py Deckbuilding
+# Ren'Py Deckbuilder
 
-![release](https://img.shields.io/github/v/release/remarkablegames/renpy-deckbuilding)
-[![build](https://github.com/remarkablegames/renpy-deckbuilding/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/renpy-deckbuilding/actions/workflows/build.yml)
-[![lint](https://github.com/remarkablegames/renpy-deckbuilding/actions/workflows/lint.yml/badge.svg)](https://github.com/remarkablegames/renpy-deckbuilding/actions/workflows/lint.yml)
+![release](https://img.shields.io/github/v/release/remarkablegames/renpy-deckbuilder)
+[![build](https://github.com/remarkablegames/renpy-deckbuilder/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/renpy-deckbuilder/actions/workflows/build.yml)
+[![lint](https://github.com/remarkablegames/renpy-deckbuilder/actions/workflows/lint.yml/badge.svg)](https://github.com/remarkablegames/renpy-deckbuilder/actions/workflows/lint.yml)
 
-⚔️ Ren'Py Deckbuilding Template.
+🃏 Ren'Py Deckbuilder Template.
 
 Play the game on:
 
-- [remarkablegames](https://remarkablegames.org/renpy-deckbuilding)
+- [remarkablegames](https://remarkablegames.org/renpy-deckbuilder)
 
 ## Credits
 
@@ -55,18 +55,18 @@ renpy --version
 Clone the repository to the `Projects Directory`:
 
 ```sh
-git clone https://github.com/remarkablegames/renpy-deckbuilding.git
-cd renpy-deckbuilding
+git clone https://github.com/remarkablegames/renpy-deckbuilder.git
+cd renpy-deckbuilder
 ```
 
 Rename the project:
 
 ```sh
-git grep -l "Ren'Py Deckbuilding" | xargs sed -i '' -e "s/Ren'Py Deckbuilding/My Game/g"
+git grep -l "Ren'Py Deckbuilder" | xargs sed -i '' -e "s/Ren'Py Deckbuilder/My Game/g"
 ```
 
 ```sh
-git grep -l 'renpy-deckbuilding' | xargs sed -i '' -e 's/renpy-deckbuilding/my-game/g'
+git grep -l 'renpy-deckbuilder' | xargs sed -i '' -e 's/renpy-deckbuilder/my-game/g'
 ```
 
 Replace the assets:
