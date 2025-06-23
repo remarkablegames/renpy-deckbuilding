@@ -67,4 +67,4 @@ init python:
                     renpy.with_statement(vpunch)
 
             elif self.type == "heal":
-                target.perform_heal(self.value)
+                target.heal(self.value)

@@ -16,7 +16,7 @@ init python:
             self.attack_max = kwargs.get("attack_max", 0)
             self.attack_multiplier = kwargs.get("attack_multiplier", 1)
 
-            self.heal = 0
+            self.heal_value = 0
             self.heal_min = kwargs.get("heal_min", 0)
             self.heal_max = kwargs.get("heal_max", 0)
 
@@ -27,7 +27,7 @@ init python:
             Generate random numbers for turn.
             """
             self.attack = round(renpy.random.randint(self.attack_min, self.attack_max) * self.attack_multiplier)
-            self.heal = renpy.random.randint(self.heal_min, self.heal_max)
+            self.heal_value = renpy.random.randint(self.heal_min, self.heal_max)
 
         def hurt(self, value: int) -> None:
             """
@@ -36,7 +36,7 @@ init python:
             renpy.sound.play("sound/punch.ogg", relative_volume=0.5)
             self.health -= value
 
-        def perform_heal(self, value: int, overheal=False) -> None:
+        def heal(self, value: int, overheal=False) -> None:
             """
             Heal character.
             """

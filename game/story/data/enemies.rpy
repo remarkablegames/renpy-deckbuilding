@@ -113,9 +113,9 @@ init python:
 
                 enemy.turn_rng()
 
-                if enemy.heal and enemy.health < enemy.health_max and renpy.random.random() < 0.5:
-                    narrator(f"{enemy.name} healed {enemy.heal} health.")
-                    enemy.perform_heal(enemy.heal)
+                if enemy.heal_value and enemy.health < enemy.health_max and renpy.random.random() < 0.5:
+                    narrator(f"{enemy.name} healed {enemy.heal_value} health.")
+                    enemy.heal(enemy.heal_value)
                 else:
                     narrator(f"{enemy.name} dealt {enemy.attack} damage to you.")
                     renpy.with_statement(vpunch)
