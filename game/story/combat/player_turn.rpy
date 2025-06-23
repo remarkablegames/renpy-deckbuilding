@@ -31,9 +31,12 @@ init python:
             drag.snap(card.get_xpos(), card.get_ypos(), 0.2)
             return
 
-        enemy_id = drop.drag_name
-        enemy = enemies.get(enemy_id)
-        card.use(enemy)
+        character_id = drop.drag_name
+        if player.id == character_id:
+            card.use(player)
+        elif character_id:
+            enemy = enemies.get(character_id)
+            card.use(enemy)
 
         # snap unused card back
         if card in player.hand:
@@ -75,3 +78,14 @@ screen player_hand:
                     mousearea:
                         area (0, 0, card.OFFSET, card.HEIGHT)
                         hovered Function(onhovered, draggable)
+
+        drag:
+            drag_name player.id
+            draggable False
+            droppable True
+            selected_idle_child Solid((255, 255, 255, 100), xsize=312, ysize=235)
+            yalign 1.0
+
+            frame:
+                background Solid((0, 0, 0, 0))
+                xysize 312, 235

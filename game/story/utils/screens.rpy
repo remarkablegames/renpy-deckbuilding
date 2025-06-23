@@ -5,7 +5,6 @@ screen stat(name, current, max):
         xsize 300
 
 screen player_stats():
-    zorder 1
     frame:
         yalign 1.0
         vbox:

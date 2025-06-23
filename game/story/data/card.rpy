@@ -70,7 +70,7 @@ init python:
                 if is_enemy:
                     renpy.show(target.image, at_list=[shake])
                 else:
-                    renpy.with_statement(vpunch)
+                    renpy.invoke_in_thread(renpy.with_statement, vpunch)
 
             elif self.type == "heal":
                 target.heal(self.value)
