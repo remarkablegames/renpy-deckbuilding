@@ -1,4 +1,4 @@
-var cacheName = 'ren-py-deckbuilding';
+var cacheName = 'ren-py-deckbuilder';
 
 /* Start the service worker and cache all of the app's content or use the existing one */
 self.addEventListener('install', function (e) {
