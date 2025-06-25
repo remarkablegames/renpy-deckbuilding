@@ -1,6 +1,6 @@
 label player_turn:
 
-    $ player.draw_cards()
+    $ deck.draw_cards()
 
     show screen player_end_turn
 
@@ -25,7 +25,7 @@ init python:
     def ondrag(drags, drop) -> None:
         drag = drags[0]
         card_id = drag.drag_name
-        card = player.get_card(card_id)
+        card = deck.get_card(card_id)
 
         if not drop:
             drag.snap(card.get_xpos(), card.get_ypos(), 0.2)
@@ -39,7 +39,7 @@ init python:
             card.use(enemy)
 
         # snap unused card back
-        if card in player.hand:
+        if card in deck.hand:
             drag.snap(card.get_xpos(), card.get_ypos(), 0.2)
 
         renpy.jump("player_hand")
@@ -59,7 +59,7 @@ screen player_hand:
                     selected_idle_child f"enemies/{enemy.image} hover.png"
                     xalign enemies.xalign_position(enemy) yalign 1.0
 
-        for card in player.hand:
+        for card in deck.hand:
             drag:
                 as draggable
                 drag_name card.id

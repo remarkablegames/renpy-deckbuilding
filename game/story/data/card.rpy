@@ -37,8 +37,8 @@ init python:
             Calculate x-position.
             """
             x = config.screen_width / 2
-            x -= (self.WIDTH + self.OFFSET * (len(player.hand) - 1)) / 2
-            x += player.hand.index(self) * self.OFFSET
+            x -= (self.WIDTH + self.OFFSET * (len(deck.hand) - 1)) / 2
+            x += deck.hand.index(self) * self.OFFSET
             return int(x)
 
         def get_ypos(self) -> int:
@@ -60,7 +60,7 @@ init python:
             if player.energy < self.cost:
                 return
 
-            player.discard_card(self)
+            deck.discard_card(self)
 
             player.energy -= self.cost
             is_enemy = target != player

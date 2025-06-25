@@ -3,7 +3,15 @@
         "enemies": [
             {
                 "name": "Boy",
-                "health": 10,
+                "health": 5,
+                "attack_min": 1,
+                "attack_max": 2,
+                "heal_min": 1,
+                "heal_max": 2
+            },
+            {
+                "name": "Girl",
+                "health": 5,
                 "attack_min": 1,
                 "attack_max": 2,
                 "heal_min": 1,
