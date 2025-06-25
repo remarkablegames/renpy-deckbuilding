@@ -19,5 +19,5 @@ init python:
 
 default player = Player(
     health=15,
-    energy=2,
+    energy=3,
 )
