@@ -2,10 +2,11 @@ init python:
     class Deck:
         def __init__(self) -> None:
             self.cards = [
-                Card(cost=1, type="attack", value=3),
-                Card(cost=1, type="attack", value=3),
-                Card(cost=2, type="heal", value=3),
-                Card(cost=2, type="heal", value=3),
+                Card(cost=1, action={"attack": {"value": 3}}),
+                Card(cost=1, action={"attack": {"value": 3}}),
+                Card(cost=2, action={"heal": {"value": 3}}),
+                Card(cost=2, action={"heal": {"value": 3}}),
+                Card(cost=3, action={"attack": {"value": 9}, "heal": {"value": 3}}),
             ]
 
             self.draw_pile = []

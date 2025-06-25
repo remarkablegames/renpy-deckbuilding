@@ -11,7 +11,7 @@ init python:
             self.id = str(uuid4())
 
             self.cost = kwargs.get("cost", 0)
-            self.type = kwargs.get("type", "")
+            self.action = kwargs.get("action", {})
             self.value = kwargs.get("value", 0)
 
         def get_drag_name(self) -> str:
@@ -30,7 +30,10 @@ init python:
             """
             Get description label.
             """
-            return "{color=[colors.black]}" + f"{self.type} {self.value}".capitalize()
+            label = "{color=[colors.black]}"
+            for key, value in self.action.items():
+                label += f"{key} {value.get('value')}\n".capitalize()
+            return label.rstrip()
 
         def get_xpos(self) -> int:
             """
@@ -65,12 +68,12 @@ init python:
             player.energy -= self.cost
             is_enemy = target != player
 
-            if self.type == "attack":
-                target.hurt(self.value)
+            if self.action.get("heal"):
+                target.heal(self.action.get("heal").get("value"))
+
+            if self.action.get("attack"):
+                target.hurt(self.action.get("attack").get("value"))
                 if is_enemy:
                     renpy.show(target.image, at_list=[shake])
                 else:
                     renpy.invoke_in_thread(renpy.with_statement, vpunch)
-
-            elif self.type == "heal":
-                target.heal(self.value)
