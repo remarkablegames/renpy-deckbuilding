@@ -7,6 +7,12 @@ init python:
         HEIGHT = 350
         OFFSET = 60
 
+        # action
+        ATTACK = "attack"
+        HEAL = "heal"
+        DRAW = "draw"
+        ENERGY = "energy"
+
         def __init__(self, **kwargs) -> None:
             self.id = str(uuid4())
 
@@ -68,11 +74,21 @@ init python:
             player.energy -= self.cost
             is_enemy = target != player
 
-            if self.action.get("heal"):
-                target.heal(self.action.get("heal").get("value"))
+            energy = self.action.get(self.ENERGY)
+            if energy:
+                player.energy += energy["value"]
 
-            if self.action.get("attack"):
-                target.hurt(self.action.get("attack").get("value"))
+            draw = self.action.get(self.DRAW)
+            if draw:
+                deck.draw_cards(draw["value"])
+
+            heal = self.action.get(self.HEAL)
+            if heal:
+                target.heal(heal["value"])
+
+            attack = self.action.get(self.ATTACK)
+            if attack:
+                target.hurt(attack["value"])
                 if is_enemy:
                     renpy.show(target.image, at_list=[shake])
                 else:
