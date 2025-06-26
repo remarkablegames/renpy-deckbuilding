@@ -53,11 +53,7 @@ init python:
             """
             Whether enemies are dead.
             """
-            for enemy in self.enemies:
-                if enemy.health > 0:
-                    return False
-
-            return True
+            return not bool(len(self.get_alive()))
 
         def xalign_position(self, enemy: RPGCharacter) -> float:
             """
@@ -81,16 +77,6 @@ init python:
 
             return xalign_position
 
-        def count_alive(self) -> int:
-            """
-            Get alive enemies.
-            """
-            count = 0
-            for enemy in self.enemies:
-                if enemy.health > 0:
-                    count += 1
-            return count
-
         def get_alive(self) -> RPGCharacter:
             """
             Get alive enemies.
@@ -101,10 +87,7 @@ init python:
             """
             Enemy turn.
             """
-            for enemy in self.enemies:
-                if enemy.health <= 0:
-                    continue
-
+            for enemy in self.get_alive():
                 if enemy.stunned:
                     narrator(f"{enemy.name} is stunned!")
                     continue
@@ -128,7 +111,7 @@ init python:
             """
             Enemy end turn.
             """
-            for enemy in self.enemies:
+            for enemy in self.get_alive():
                 enemy.stunned = False
 
 default enemies = Enemies()

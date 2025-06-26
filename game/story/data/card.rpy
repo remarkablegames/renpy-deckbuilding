@@ -7,12 +7,6 @@ init python:
         HEIGHT = 350
         OFFSET = 80
 
-        # action
-        ATTACK = "attack"
-        HEAL = "heal"
-        DRAW = "draw"
-        ENERGY = "energy"
-
         def __init__(self, **kwargs) -> None:
             self.id = str(uuid4())
 
@@ -34,6 +28,8 @@ init python:
             for action, data in self.action.items():
                 label += action.capitalize()
                 label += f" {data['value']}"
+                if data.get("stun"):
+                    label += " Stun"
                 if data.get("all"):
                     label += " All"
                 label += "\n"
@@ -72,20 +68,20 @@ init python:
             player.energy -= self.cost
             is_enemy = target != player
 
-            energy = self.action.get(self.ENERGY)
+            energy = self.action.get("energy")
             if energy:
                 renpy.sound.queue("sound/powerup.ogg")
                 player.energy += energy["value"]
 
-            draw = self.action.get(self.DRAW)
+            draw = self.action.get("draw")
             if draw:
                 deck.draw_cards(draw["value"])
 
-            heal = self.action.get(self.HEAL)
+            heal = self.action.get("heal")
             if heal:
                 target.heal(heal["value"])
 
-            attack = self.action.get(self.ATTACK)
+            attack = self.action.get("attack")
             if attack:
                 if is_enemy and attack.get("all"):
                     targets = enemies.get_alive()
@@ -94,6 +90,8 @@ init python:
                 for target in targets:
                     target.hurt(attack["value"])
                     if is_enemy:
+                        if attack.get("stun"):
+                            target.stunned = True
                         renpy.show(target.image, at_list=[shake])
                     else:
                         renpy.invoke_in_thread(renpy.with_statement, vpunch)
