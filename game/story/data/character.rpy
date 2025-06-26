@@ -33,14 +33,14 @@ init python:
             """
             Attack character.
             """
-            renpy.sound.play("sound/punch.ogg", relative_volume=0.5)
+            renpy.sound.queue("sound/punch.ogg", relative_volume=0.5)
             self.health -= value
 
         def heal(self, value: int, overheal=False) -> None:
             """
             Heal character.
             """
-            renpy.sound.play("sound/potion.ogg", relative_volume=0.5)
+            renpy.sound.queue("sound/potion.ogg", relative_volume=0.5)
             if not overheal and self.health + value >= self.health_max:
                 self.health = self.health_max
             else:

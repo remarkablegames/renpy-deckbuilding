@@ -74,6 +74,7 @@ init python:
 
             energy = self.action.get(self.ENERGY)
             if energy:
+                renpy.sound.queue("sound/powerup.ogg")
                 player.energy += energy["value"]
 
             draw = self.action.get(self.DRAW)
