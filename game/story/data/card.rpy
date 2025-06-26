@@ -5,7 +5,7 @@ init python:
         IMAGE = "card.png"
         WIDTH = 250
         HEIGHT = 350
-        OFFSET = 60
+        OFFSET = 80
 
         # action
         ATTACK = "attack"
@@ -19,12 +19,6 @@ init python:
             self.cost = kwargs.get("cost", 0)
             self.action = kwargs.get("action", {})
             self.value = kwargs.get("value", 0)
-
-        def get_drag_name(self) -> str:
-            """
-            Get drag name.
-            """
-            return self.id
 
         def label_cost(self) -> str:
             """
