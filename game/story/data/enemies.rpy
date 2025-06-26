@@ -93,11 +93,9 @@ init python:
 
         def get_alive(self) -> RPGCharacter:
             """
-            Get alive enemy.
+            Get alive enemies.
             """
-            for enemy in self.enemies:
-                if enemy.health > 0:
-                    return enemy
+            return list(filter(lambda enemy: enemy.health > 0, self.enemies))
 
         def turn(self) -> None:
             """

@@ -31,8 +31,12 @@ init python:
             Get description label.
             """
             label = "{color=[colors.black]}"
-            for key, value in self.action.items():
-                label += f"{key} {value.get('value')}\n".capitalize()
+            for action, data in self.action.items():
+                label += action.capitalize()
+                label += f" {data['value']}"
+                if data.get("all"):
+                    label += " All"
+                label += "\n"
             return label.rstrip()
 
         def get_xpos(self) -> int:
@@ -82,8 +86,13 @@ init python:
 
             attack = self.action.get(self.ATTACK)
             if attack:
-                target.hurt(attack["value"])
-                if is_enemy:
-                    renpy.show(target.image, at_list=[shake])
+                if is_enemy and attack.get("all"):
+                    targets = enemies.get_alive()
                 else:
-                    renpy.invoke_in_thread(renpy.with_statement, vpunch)
+                    targets = [target]
+                for target in targets:
+                    target.hurt(attack["value"])
+                    if is_enemy:
+                        renpy.show(target.image, at_list=[shake])
+                    else:
+                        renpy.invoke_in_thread(renpy.with_statement, vpunch)
