@@ -32,6 +32,8 @@ init python:
                     label += " Stun"
                 if data.get("all"):
                     label += " All"
+                if data.get("times"):
+                    label += f" ×{data.get('times')}"
                 label += "\n"
             return label.rstrip()
 
@@ -79,7 +81,8 @@ init python:
 
             heal = self.action.get("heal")
             if heal:
-                target.heal(heal["value"])
+                for _ in range(heal.get("times", 1)):
+                    target.heal(heal["value"])
 
             attack = self.action.get("attack")
             if attack:

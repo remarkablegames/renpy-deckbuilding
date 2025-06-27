@@ -6,10 +6,11 @@ init python:
                 Card(cost=1, action={"attack": {"value": 3}}),
                 Card(cost=1, action={"draw": {"value": 2}}),
                 Card(cost=1, action={"energy": {"value": 2}}),
+                Card(cost=1, action={"heal": {"value": 3}}),
                 Card(cost=2, action={"attack": {"value": 3, "all": 1}}),
                 Card(cost=2, action={"attack": {"value": 3, "stun": 1}}),
                 Card(cost=2, action={"attack": {"value": 6}, "draw": {"value": 1}}),
-                Card(cost=2, action={"heal": {"value": 3}}),
+                Card(cost=2, action={"heal": {"value": 3, "times": 2}}),
             ]
 
             self.draw_pile = []
