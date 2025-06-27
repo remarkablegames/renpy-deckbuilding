@@ -4,7 +4,7 @@ screen stat(name, current, max):
         xalign 0.5
         xsize 300
 
-screen player_stats():
+screen player_stats:
     frame:
         yalign 1.0
         vbox:
@@ -14,11 +14,13 @@ screen player_stats():
             null height 15
             text "Money: $[money]"
 
-screen player_end_turn():
-    textbutton "End Turn":
+screen player_end_turn:
+    frame:
+        padding (10, 10)
         xalign 1.0 yalign 1.0
-        background gui.text_color
-        action Function(player.end_turn)
+
+        textbutton "End Turn":
+            action Function(player.end_turn)
 
 screen enemy_stats0(enemy, xalign_position = 0.5):
     frame:

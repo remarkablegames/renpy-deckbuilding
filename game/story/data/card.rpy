@@ -98,3 +98,23 @@ init python:
                         renpy.show(target.image, at_list=[shake])
                     else:
                         renpy.invoke_in_thread(renpy.with_statement, vpunch)
+
+        @staticmethod
+        def generate(count=1) -> list:
+            """
+            Generate card(s).
+            """
+            cards = []
+
+            for _ in range(count):
+                card = Card(
+                    cost=renpy.random.randint(1, 3),
+                    action={
+                        renpy.random.choice(["attack", "draw", "energy", "heal"]): {
+                            "value": renpy.random.randint(1, 6)
+                        },
+                    },
+                )
+                cards.append(card)
+
+            return cards

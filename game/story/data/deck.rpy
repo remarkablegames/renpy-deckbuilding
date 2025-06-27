@@ -27,15 +27,14 @@ init python:
             """
             Add card(s) to hand.
             """
-            if not len(self.draw_pile):
-                self.draw_pile = self.cards.copy()
-                renpy.random.shuffle(self.draw_pile)
-
-            for i in range(count):
+            for _ in range(count):
                 if not len(self.draw_pile):
                     self.draw_pile = self.discard_pile.copy()
                     self.discard_pile = []
                     renpy.random.shuffle(self.draw_pile)
+
+                    if not len(self.draw_pile):
+                        return narrator("No more cards to draw.")
 
                 renpy.sound.queue("sound/draw.ogg")
                 self.hand.append(self.draw_pile.pop(0))
@@ -54,11 +53,12 @@ init python:
             while len(self.hand):
                 self.discard_pile.append(self.hand.pop(0))
 
-        def reset_hand_pile(self) -> None:
+        def shuffle(self) -> None:
             """
-            Reset hand and pile after battle.
+            Shuffle draw pile before battle.
             """
-            self.draw_pile = []
+            self.draw_pile = self.cards.copy()
+            renpy.random.shuffle(self.draw_pile)
             self.discard_pile = []
             self.hand = []
 

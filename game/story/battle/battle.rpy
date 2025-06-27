@@ -6,5 +6,6 @@ label battle:
 
     $ enemies.show()
     $ player.energy = player.energy_max
+    $ deck.shuffle()
 
     jump player_turn

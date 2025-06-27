@@ -11,12 +11,6 @@ init python:
             renpy.hide_screen("player_end_turn")
             renpy.jump("enemy_turn")
 
-        def end_battle(self) -> None:
-            """
-            End battle.
-            """
-            deck.reset_hand_pile()
-
 default player = Player(
     health=15,
     energy=3,

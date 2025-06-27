@@ -13,7 +13,6 @@ label win:
 
     "You won the battle!"
 
-    $ player.end_battle()
     $ wins += 1
     $ interest = ceil(money * 0.4)
     $ loot = renpy.random.randint(wins, round(wins * 1.5) + 1)
