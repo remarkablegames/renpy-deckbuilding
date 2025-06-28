@@ -14,6 +14,13 @@ label shop:
 
             call screen add_card
 
+        "Remove card (-$[reward_cost])
+        {tooltip}Remove 1 card from your deck" if money >= reward_cost:
+            $ money -= reward_cost
+            $ config.menu_include_disabled = False
+
+            call screen remove_card
+
         "Get reward (-$[reward_cost])
         {tooltip}Upgrade a stat" if money >= reward_cost:
             $ money -= reward_cost
@@ -32,7 +39,6 @@ screen add_card:
     frame:
         xalign 0.5 yalign 0.5
         padding (50, 50)
-
         has vbox
 
         hbox:
@@ -51,6 +57,39 @@ screen add_card:
 
         null height 25
 
-        textbutton "Pass":
+        frame:
             xalign 0.5
-            action Jump("shop")
+            textbutton "Pass":
+                action Jump("shop")
+
+screen remove_card:
+
+    frame:
+        xalign 0.5 yalign 0.5
+        padding (50, 50)
+        has vbox
+
+        viewport:
+            scrollbars "horizontal"
+            ysize 450
+
+            hbox:
+                spacing 25
+
+                for card in deck.cards:
+                    button:
+                        action [Function(deck.cards.remove, card), Jump("shop")]
+
+                        frame:
+                            background Frame(Card.IMAGE)
+                            label card.label_cost()
+                            label card.label_description():
+                                xalign 0.5 yalign 0.5
+                            xysize Card.WIDTH, Card.HEIGHT
+
+        null height 50
+
+        frame:
+            xalign 0.5
+            textbutton "Pass":
+                action Jump("shop")
