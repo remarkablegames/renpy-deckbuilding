@@ -9,20 +9,19 @@ init python:
 
         def __init__(self, **kwargs) -> None:
             self.id = str(uuid4())
-
             self.cost = kwargs.get("cost", 0)
             self.action = kwargs.get("action", {})
             self.value = kwargs.get("value", 0)
 
         def label_cost(self) -> str:
             """
-            Get cost label.
+            Cost label.
             """
             return emojis.get(self.cost)
 
         def label_description(self) -> str:
             """
-            Get description label.
+            Description label.
             """
             label = "{color=[colors.black]}"
             for action, data in self.action.items():
@@ -36,6 +35,28 @@ init python:
                     label += f" ×{data.get('times')}"
                 label += "\n"
             return label.rstrip()
+
+        @staticmethod
+        def label_upgrade(action: str, value=1) -> str:
+            """
+            Upgrade label.
+            """
+            if action == "cost":
+                return f"Decrease cost by {emojis.get(1)}"
+            else:
+                return f"Increase {action} by {value}"
+
+        def upgrade(self, action: str, value=1) -> None:
+            """
+            Upgrade card.
+            """
+            if action == "cost" and self.cost > 0:
+                self.cost -= 1
+            else:
+                if self.action.get(action):
+                    self.action[action]["value"] += value
+                else:
+                    self.action[action] = {"value": value}
 
         def get_xpos(self) -> int:
             """
@@ -98,13 +119,6 @@ init python:
                         renpy.show(target.image, at_list=[shake])
                     else:
                         renpy.invoke_in_thread(renpy.with_statement, vpunch)
-
-        def upgrade(self, value=1) -> None:
-            """
-            Upgrade card action.
-            """
-            action = renpy.random.choice(list(self.action.keys()))
-            self.action[action]["value"] += value
 
         @staticmethod
         def generate(count=1) -> list:

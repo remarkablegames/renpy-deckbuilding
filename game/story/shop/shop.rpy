@@ -16,6 +16,8 @@ label shop:
         {tooltip}Upgrade 1 card from your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
+            $ upgrade_card_action = renpy.random.choice(["draw"] * 2 + ["energy"] * 2 + ["heal"] * 3 + ["cost"] * 1 + ["attack"] * 6)
+            $ upgrade_card_value = renpy.random.randint(1, 3)
             call screen upgrade_card
 
         "Remove card (-$[reward_cost])
@@ -64,14 +66,12 @@ screen add_card:
 
 screen upgrade_card:
 
-    $ value = renpy.random.randint(1, 3)
-
     frame:
         xalign 0.5 yalign 0.5
         padding (50, 50)
         has vbox
 
-        text "Increase value by [value]"
+        text Card.label_upgrade(upgrade_card_action)
 
         null height 50
 
@@ -83,14 +83,15 @@ screen upgrade_card:
                 spacing 25
 
                 for card in deck.cards:
-                    button:
-                        action [Function(card.upgrade, value), Jump("shop")]
+                    if not (upgrade_card_action == "cost" and not card.cost):
+                        button:
+                            action [Function(card.upgrade, upgrade_card_action, upgrade_card_value), Jump("shop")]
 
-                        frame:
-                            background Frame(Card.IMAGE)
-                            label card.label_cost()
-                            label card.label_description() xalign 0.5 yalign 0.5
-                            xysize Card.WIDTH, Card.HEIGHT
+                            frame:
+                                background Frame(Card.IMAGE)
+                                label card.label_cost()
+                                label card.label_description() xalign 0.5 yalign 0.5
+                                xysize Card.WIDTH, Card.HEIGHT
 
         null height 50
 
