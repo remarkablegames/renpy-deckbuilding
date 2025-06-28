@@ -99,6 +99,13 @@ init python:
                     else:
                         renpy.invoke_in_thread(renpy.with_statement, vpunch)
 
+        def upgrade(self, value=1) -> None:
+            """
+            Upgrade card action.
+            """
+            action = renpy.random.choice(list(self.action.keys()))
+            self.action[action]["value"] += value
+
         @staticmethod
         def generate(count=1) -> list:
             """

@@ -1,8 +1,7 @@
 label shop:
 
-    python:
-        config.menu_include_disabled = True
-        reward_cost = max(wins, 3)
+    $ config.menu_include_disabled = True
+    $ reward_cost = max(wins, 3)
 
     menu:
         "What do you want to do?"
@@ -11,14 +10,18 @@ label shop:
         {tooltip}Add 1 card to your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
-
             call screen add_card
+
+        "Upgrade card (-$[reward_cost])
+        {tooltip}Upgrade 1 card from your deck" if money >= reward_cost:
+            $ money -= reward_cost
+            $ config.menu_include_disabled = False
+            call screen upgrade_card
 
         "Remove card (-$[reward_cost])
         {tooltip}Remove 1 card from your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
-
             call screen remove_card
 
         "Get reward (-$[reward_cost])
@@ -26,12 +29,10 @@ label shop:
             $ money -= reward_cost
             $ rewards += 1
             $ config.menu_include_disabled = False
-
             jump reward
 
         "Battle":
             $ config.menu_include_disabled = False
-
             jump battle
 
 screen add_card:
@@ -51,11 +52,47 @@ screen add_card:
                     frame:
                         background Frame(Card.IMAGE)
                         label card.label_cost()
-                        label card.label_description():
-                            xalign 0.5 yalign 0.5
+                        label card.label_description() xalign 0.5 yalign 0.5
                         xysize Card.WIDTH, Card.HEIGHT
 
         null height 25
+
+        frame:
+            xalign 0.5
+            textbutton "Pass":
+                action Jump("shop")
+
+screen upgrade_card:
+
+    $ value = renpy.random.randint(1, 3)
+
+    frame:
+        xalign 0.5 yalign 0.5
+        padding (50, 50)
+        has vbox
+
+        text "Increase value by [value]"
+
+        null height 50
+
+        viewport:
+            scrollbars "horizontal"
+            ysize 450
+
+            hbox:
+                spacing 25
+
+                for card in deck.cards:
+                    button:
+                        action [Function(card.upgrade, value), Jump("shop")]
+
+                        frame:
+                            background Frame(Card.IMAGE)
+                            label card.label_cost()
+                            label card.label_description() xalign 0.5 yalign 0.5
+                            xysize Card.WIDTH, Card.HEIGHT
+
+        null height 50
 
         frame:
             xalign 0.5
@@ -83,8 +120,7 @@ screen remove_card:
                         frame:
                             background Frame(Card.IMAGE)
                             label card.label_cost()
-                            label card.label_description():
-                                xalign 0.5 yalign 0.5
+                            label card.label_description() xalign 0.5 yalign 0.5
                             xysize Card.WIDTH, Card.HEIGHT
 
         null height 50
