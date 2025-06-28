@@ -42,9 +42,9 @@ init python:
             Upgrade label.
             """
             if action == "cost":
-                return f"Decrease cost by {emojis.get(1)}"
+                return f"Select a card to decrease {{b}}cost{{/b}} by {emojis.get(1)}:"
             else:
-                return f"Increase {action} by {value}"
+                return f"Select a card to increase {{b}}{action}{{/b}} by {{b}}{value}{{/b}}:"
 
         def upgrade(self, action: str, value=1) -> None:
             """

@@ -19,9 +19,24 @@ init python:
 
         def get_card(self, card_id: str) -> Card:
             """
-            Find card by id.
+            Get card by id.
             """
             return find_by_id(self.cards, card_id)
+
+        def get_cards(self, count: int, filter_callback = None) -> Card:
+            """
+            Get cards.
+            """
+            copy = self.cards.copy()
+            renpy.random.shuffle(copy)
+            if filter_callback:
+                copy = list(filter(filter_callback, copy))
+            cards = []
+            for _ in range(count):
+                if not len(copy):
+                    return cards
+                cards.append(copy.pop())
+            return cards
 
         def draw_cards(self, count=3) -> None:
             """

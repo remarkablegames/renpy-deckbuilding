@@ -6,21 +6,21 @@ label shop:
     menu:
         "What do you want to do?"
 
-        "Buy card (-$[reward_cost])
+        "Buy a card (-$[reward_cost])
         {tooltip}Add 1 card to your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
             call screen add_card
 
-        "Upgrade card (-$[reward_cost])
-        {tooltip}Upgrade 1 card from your deck" if money >= reward_cost:
+        "Upgrade a card (-$[reward_cost])
+        {tooltip}Upgrade 1 card in your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
             $ upgrade_card_action = renpy.random.choice(["draw"] * 2 + ["energy"] * 2 + ["heal"] * 3 + ["cost"] * 1 + ["attack"] * 6)
             $ upgrade_card_value = renpy.random.randint(1, 3)
             call screen upgrade_card
 
-        "Remove card (-$[reward_cost])
+        "Remove a card (-$[reward_cost])
         {tooltip}Remove 1 card from your deck" if money >= reward_cost:
             $ money -= reward_cost
             $ config.menu_include_disabled = False
@@ -43,6 +43,10 @@ screen add_card:
         xalign 0.5 yalign 0.5
         padding (50, 50)
         has vbox
+
+        text "Add 1 card to your deck:"
+
+        null height 25
 
         hbox:
             spacing 25
@@ -73,27 +77,22 @@ screen upgrade_card:
 
         text Card.label_upgrade(upgrade_card_action)
 
-        null height 50
+        null height 25
 
-        viewport:
-            scrollbars "horizontal"
-            ysize 450
+        hbox:
+            spacing 25
 
-            hbox:
-                spacing 25
+            for card in deck.get_cards(3, lambda card: card.cost > 0 if upgrade_card_action == "cost" else True):
+                button:
+                    action [Function(card.upgrade, upgrade_card_action, upgrade_card_value), Jump("shop")]
 
-                for card in deck.cards:
-                    if not (upgrade_card_action == "cost" and not card.cost):
-                        button:
-                            action [Function(card.upgrade, upgrade_card_action, upgrade_card_value), Jump("shop")]
+                    frame:
+                        background Frame(Card.IMAGE)
+                        label card.label_cost()
+                        label card.label_description() xalign 0.5 yalign 0.5
+                        xysize Card.WIDTH, Card.HEIGHT
 
-                            frame:
-                                background Frame(Card.IMAGE)
-                                label card.label_cost()
-                                label card.label_description() xalign 0.5 yalign 0.5
-                                xysize Card.WIDTH, Card.HEIGHT
-
-        null height 50
+        null height 25
 
         frame:
             xalign 0.5
