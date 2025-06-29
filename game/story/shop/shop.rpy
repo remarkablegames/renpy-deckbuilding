@@ -17,7 +17,7 @@ label shop:
             python:
                 money -= reward_cost * 2
                 config.menu_include_disabled = False
-                upgrade_card_action = renpy.random.choice(
+                upgrade_card_type = renpy.random.choice(
                     ["all"] * 1 +
                     ["attack"] * 6 +
                     ["cost"] * 1 +
@@ -85,16 +85,16 @@ screen upgrade_card:
         padding (50, 50)
         has vbox
 
-        text Card.label_upgrade(upgrade_card_action)
+        text Card.label_upgrade(upgrade_card_type, upgrade_card_value)
 
         null height 25
 
         hbox:
             spacing 25
 
-            for card in deck.get_cards(3, upgrade_card_action):
+            for card in deck.get_cards(3, upgrade_card_type):
                 button:
-                    action [Function(card.upgrade, upgrade_card_action, upgrade_card_value), Jump("shop")]
+                    action [Function(card.upgrade, upgrade_card_type, upgrade_card_value), Jump("shop")]
 
                     frame:
                         background Frame(Card.IMAGE)

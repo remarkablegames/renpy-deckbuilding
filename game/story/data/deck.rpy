@@ -23,19 +23,19 @@ init python:
             """
             return find_by_id(self.cards, card_id)
 
-        def get_cards(self, count: int, upgrade_card_action="") -> Card:
+        def get_cards(self, count: int, upgrade_card_type="") -> Card:
             """
             Get cards.
             """
             copy = self.cards.copy()
             renpy.random.shuffle(copy)
 
-            if upgrade_card_action in ["all", "stun"]:
-                copy = list(filter(lambda card: card.action.get("attack") and not card.action["attack"].get(upgrade_card_action), copy))
-            elif upgrade_card_action == "cost":
+            if upgrade_card_type in ["all", "stun"]:
+                copy = list(filter(lambda card: card.action.get("attack") and not card.action["attack"].get(upgrade_card_type), copy))
+            elif upgrade_card_type == "cost":
                 copy = list(filter(lambda card: card.cost > 0, copy))
             else:
-                copy = list(filter(lambda card: card.action.get(upgrade_card_action), copy))
+                copy = list(filter(lambda card: card.action.get(upgrade_card_type), copy))
 
             cards = []
             for _ in range(count):
