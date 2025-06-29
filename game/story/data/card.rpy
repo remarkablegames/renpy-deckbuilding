@@ -27,12 +27,12 @@ init python:
             for action, data in self.action.items():
                 label += action.capitalize()
                 label += f" {data['value']}"
+                if data.get("times", 1) > 1:
+                    label += f" ×{data.get('times')}"
                 if data.get("stun"):
                     label += " Stun"
                 if data.get("all"):
                     label += " All"
-                if data.get("times"):
-                    label += f" ×{data.get('times')}"
                 label += "\n"
             return label.rstrip()
 
@@ -42,11 +42,13 @@ init python:
             Upgrade label.
             """
             if action == "all":
-                return f"Select a card to apply effects to {{b}}all{{/b}}:"
+                return f"Select a card to apply effects to {{b}}all{{/b}} enemies:"
             elif action == "cost":
                 return f"Select a card to decrease {{b}}cost{{/b}} by {emojis.get(1)}:"
             elif action == "stun":
                 return f"Select a card to {{b}}stun{{/b}} an enemy:"
+            elif action == "times":
+                return f"Select a card to increase action by 1 {{b}}time{{/b}}:"
             else:
                 return f"Select a card to increase {{b}}{action}{{/b}} by {{b}}{value}{{/b}}:"
 
@@ -54,10 +56,14 @@ init python:
             """
             Upgrade card.
             """
-            if action == "cost" and self.cost > 0:
-                self.cost -= 1
-            elif action in ["all", "stun"]:
+            if action in ["all", "stun"]:
                 self.action["attack"][action] = 1
+            elif action == "cost" and self.cost > 0:
+                self.cost -= 1
+            elif action == "times":
+                action = self.action.get("attack") if self.action.get("attack") else self.action.get("heal")
+                action["times"] = action.get("times", 1)
+                action["times"] += 1
             else:
                 if self.action.get(action):
                     self.action[action]["value"] += value
@@ -113,18 +119,19 @@ init python:
 
             attack = self.action.get("attack")
             if attack:
-                if is_enemy and attack.get("all"):
-                    targets = enemies.get_alive()
-                else:
-                    targets = [target]
-                for target in targets:
-                    target.hurt(attack["value"])
-                    if is_enemy:
-                        if attack.get("stun"):
-                            target.stunned = True
-                        renpy.show(target.image, at_list=[shake])
+                for _ in range(attack.get("times", 1)):
+                    if is_enemy and attack.get("all"):
+                        targets = enemies.get_alive()
                     else:
-                        renpy.invoke_in_thread(renpy.with_statement, vpunch)
+                        targets = [target]
+                    for target in targets:
+                        target.hurt(attack["value"])
+                        if is_enemy:
+                            if attack.get("stun"):
+                                target.stunned = True
+                            renpy.show(target.image, at_list=[shake])
+                        else:
+                            renpy.invoke_in_thread(renpy.with_statement, vpunch)
 
         @staticmethod
         def generate(count=1) -> list:

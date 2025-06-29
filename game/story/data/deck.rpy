@@ -34,6 +34,8 @@ init python:
                 copy = list(filter(lambda card: card.action.get("attack") and not card.action["attack"].get(upgrade_card_type), copy))
             elif upgrade_card_type == "cost":
                 copy = list(filter(lambda card: card.cost > 0, copy))
+            elif upgrade_card_type == "times":
+                copy = list(filter(lambda card: card.action.get("attack") or card.action.get("heal"), copy))
             else:
                 copy = list(filter(lambda card: card.action.get(upgrade_card_type), copy))
 
