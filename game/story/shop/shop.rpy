@@ -51,8 +51,9 @@ label shop:
 screen add_card:
 
     frame:
-        xalign 0.5 yalign 0.5
+        modal True
         padding (50, 50)
+        xalign 0.5 yalign 0.5
         has vbox
 
         text "Add 1 card to your deck:"
@@ -82,8 +83,9 @@ screen add_card:
 screen upgrade_card:
 
     frame:
-        xalign 0.5 yalign 0.5
+        modal True
         padding (50, 50)
+        xalign 0.5 yalign 0.5
         has vbox
 
         text Card.label_upgrade(upgrade_card_type, upgrade_card_value)
@@ -113,8 +115,9 @@ screen upgrade_card:
 screen remove_card:
 
     frame:
-        xalign 0.5 yalign 0.5
+        modal True
         padding (50, 50)
+        xalign 0.5 yalign 0.5
         has vbox
 
         viewport:
