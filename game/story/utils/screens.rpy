@@ -10,8 +10,8 @@ screen player_stats:
 
         frame:
             padding (10, 10)
-            textbutton "Draw Pile":
-                action Show('draw_pile')
+            textbutton f"{'View Draw Pile' if battle else 'View Deck'}":
+                action Show("draw_pile")
 
         frame:
             vbox:
@@ -49,7 +49,7 @@ screen enemy_stats2(enemy, xalign_position = 0.5):
 
 screen draw_pile:
 
-    dismiss action Hide('draw_pile')
+    dismiss action Hide("draw_pile")
 
     frame:
         modal True
@@ -64,7 +64,7 @@ screen draw_pile:
             hbox:
                 spacing 25
 
-                for card in deck.draw_pile:
+                for card in deck.draw_pile if battle else deck.cards:
                     frame:
                         background Frame(Card.IMAGE)
                         label card.label_cost()
@@ -76,4 +76,4 @@ screen draw_pile:
         frame:
             xalign 0.5
             textbutton "Close":
-                action Hide('draw_pile')
+                action Hide("draw_pile")

@@ -1,5 +1,7 @@
 label lose:
 
+    $ battle = False
+
     hide screen player_stats
     hide screen player_end_turn
     hide screen enemy_stats0

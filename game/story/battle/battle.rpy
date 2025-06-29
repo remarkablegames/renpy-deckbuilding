@@ -1,4 +1,8 @@
+define battle = False
+
 label battle:
+
+    $ battle = True
 
     scene bg plain with dissolve
 
