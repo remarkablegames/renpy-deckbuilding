@@ -12,17 +12,27 @@ label shop:
             $ config.menu_include_disabled = False
             call screen add_card
 
-        "Upgrade a card (-$[reward_cost])
-        {tooltip}Upgrade 1 card in your deck" if money >= reward_cost:
-            $ money -= reward_cost
-            $ config.menu_include_disabled = False
-            $ upgrade_card_action = renpy.random.choice(["draw"] * 2 + ["energy"] * 2 + ["heal"] * 3 + ["cost"] * 1 + ["attack"] * 6)
-            $ upgrade_card_value = renpy.random.randint(1, 3)
+        "Upgrade a card (-$[reward_cost * 2])
+        {tooltip}Upgrade 1 card in your deck" if money >= reward_cost * 2:
+            python:
+                money -= reward_cost * 2
+                config.menu_include_disabled = False
+                upgrade_card_action = renpy.random.choice(
+                    ["all"] * 1 +
+                    ["attack"] * 6 +
+                    ["cost"] * 1 +
+                    ["draw"] * 3 +
+                    ["energy"] * 3 +
+                    ["heal"] * 3 +
+                    ["stun"] * 1 +
+                    []
+                )
+                upgrade_card_value = renpy.random.randint(1, 3)
             call screen upgrade_card
 
-        "Remove a card (-$[reward_cost])
-        {tooltip}Remove 1 card from your deck" if money >= reward_cost:
-            $ money -= reward_cost
+        "Remove a card (-$[reward_cost * 3])
+        {tooltip}Remove 1 card from your deck" if money >= reward_cost * 3:
+            $ money -= reward_cost * 3
             $ config.menu_include_disabled = False
             call screen remove_card
 
@@ -82,7 +92,7 @@ screen upgrade_card:
         hbox:
             spacing 25
 
-            for card in deck.get_cards(3, lambda card: card.cost > 0 if upgrade_card_action == "cost" else True):
+            for card in deck.get_cards(3, upgrade_card_action):
                 button:
                     action [Function(card.upgrade, upgrade_card_action, upgrade_card_value), Jump("shop")]
 

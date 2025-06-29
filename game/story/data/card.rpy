@@ -41,8 +41,12 @@ init python:
             """
             Upgrade label.
             """
-            if action == "cost":
+            if action == "all":
+                return f"Select a card to apply effects to {{b}}all{{/b}}:"
+            elif action == "cost":
                 return f"Select a card to decrease {{b}}cost{{/b}} by {emojis.get(1)}:"
+            elif action == "stun":
+                return f"Select a card to {{b}}stun{{/b}} an enemy:"
             else:
                 return f"Select a card to increase {{b}}{action}{{/b}} by {{b}}{value}{{/b}}:"
 
@@ -52,6 +56,8 @@ init python:
             """
             if action == "cost" and self.cost > 0:
                 self.cost -= 1
+            elif action in ["all", "stun"]:
+                self.action["attack"][action] = 1
             else:
                 if self.action.get(action):
                     self.action[action]["value"] += value
