@@ -1,6 +1,6 @@
 init python:
     class Enemies:
-        # Enemy names that are mapped to their respective images.
+        # Names that are mapped to their respective images.
         # E.g., name "Boy 1" -> image "boy_1".
         NAMES = ["Boy", "Girl", "Guy"]
 
