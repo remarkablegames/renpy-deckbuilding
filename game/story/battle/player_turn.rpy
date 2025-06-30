@@ -57,7 +57,7 @@ screen player_hand:
                     droppable True
                     idle_child f"enemies/{enemy.image}.png"
                     selected_idle_child f"enemies/{enemy.image} hover.png"
-                    xalign enemies.xalign_position(enemy) yalign 1.0
+                    xalign enemies.xalign_position(enemy) yalign Enemies.YALIGN
 
         for card in deck.hand:
             drag:

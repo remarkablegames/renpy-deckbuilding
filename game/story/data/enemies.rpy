@@ -1,5 +1,12 @@
 init python:
     class Enemies:
+        # Enemy names that are mapped to their respective images.
+        # E.g., name "Boy 1" -> image "boy_1".
+        NAMES = ["Boy", "Girl", "Guy"]
+
+        # Enemy yalign position in battle.
+        YALIGN = 1.0
+
         def __init__(self) -> None:
             self.enemies = []
             self.count = 0
