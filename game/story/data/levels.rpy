@@ -13,8 +13,8 @@ init python:
                 return self.levels[str(level)]
 
             except KeyError:
-                level = { "enemies": [] }
-                enemies_copy = Enemies.NAMES.copy()
+                level = {"enemies": []}
+                names = Enemies.NAMES.copy()
                 random = renpy.random.random()
 
                 if wins > 6 and random < 0.3:
@@ -25,8 +25,8 @@ init python:
                     enemies_count = 1
 
                 while enemies_count > 0:
-                    enemy_name = renpy.random.choice(enemies_copy)
-                    enemies_copy.remove(enemy_name)
+                    enemy_name = renpy.random.choice(names)
+                    names.remove(enemy_name)
                     attack_min = round(wins * (1 + renpy.random.random())) + 1
                     heal_min = round(wins * (1 + renpy.random.random())) + 1
 
