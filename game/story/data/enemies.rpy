@@ -29,9 +29,9 @@ init python:
             """
             self.generate()
 
-            for enemy_index, enemy in enumerate(self.enemies):
+            for index, enemy in enumerate(self.enemies):
                 xalign_position = self.xalign_position(enemy)
-                renpy.show_screen(f"enemy_stats{enemy_index}", enemy, xalign_position)
+                renpy.show_screen(f"enemy_stats{index}", enemy, xalign_position)
                 renpy.show(enemy.image, at_list=[position(xalign_position)])
 
             renpy.with_statement(dissolve)
@@ -56,11 +56,17 @@ init python:
             """
             return self.enemies.index(enemy)
 
+        def alive(self) -> list:
+            """
+            Get alive enemies.
+            """
+            return list(filter(lambda enemy: enemy.health > 0, self.enemies))
+
         def dead(self) -> bool:
             """
             Whether enemies are dead.
             """
-            return not bool(len(self.get_alive()))
+            return not bool(len(self.alive()))
 
         def xalign_position(self, enemy: RPGCharacter) -> float:
             """
@@ -84,17 +90,11 @@ init python:
 
             return xalign_position
 
-        def get_alive(self) -> RPGCharacter:
-            """
-            Get alive enemies.
-            """
-            return list(filter(lambda enemy: enemy.health > 0, self.enemies))
-
         def turn(self) -> None:
             """
             Enemy turn.
             """
-            for enemy in self.get_alive():
+            for enemy in self.alive():
                 if enemy.stunned:
                     narrator(f"{enemy.name} is stunned!")
                     continue
@@ -118,7 +118,7 @@ init python:
             """
             Enemy end turn.
             """
-            for enemy in self.get_alive():
+            for enemy in self.alive():
                 enemy.stunned = False
 
 default enemies = Enemies()

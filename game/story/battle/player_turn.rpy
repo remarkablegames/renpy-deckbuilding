@@ -49,7 +49,7 @@ init python:
 
 screen player_hand:
     draggroup:
-        for enemy_index, enemy in enumerate(enemies.enemies):
+        for enemy in enemies.enemies:
             if enemy.health > 0:
                 drag:
                     drag_name enemy.id

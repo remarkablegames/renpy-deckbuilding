@@ -121,7 +121,7 @@ init python:
             if attack:
                 for _ in range(attack.get("times", 1)):
                     if is_enemy and attack.get("all"):
-                        targets = enemies.get_alive()
+                        targets = enemies.alive()
                     else:
                         targets = [target]
                     for target in targets:
