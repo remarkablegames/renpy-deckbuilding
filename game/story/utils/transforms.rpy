@@ -1,4 +1,4 @@
-transform position(xalign_position = 0.5):
+transform position(xalign_position=0.5):
     xalign xalign_position
     yalign Enemies.YALIGN
 
