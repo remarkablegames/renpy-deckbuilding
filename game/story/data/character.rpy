@@ -8,6 +8,13 @@ init python:
             self.name = kwargs.get("name", "")
             self.image = kwargs.get("image", self.name.replace(" ", "_").lower())
 
+            if self.name == "Girl":
+                self.width = 228
+                self.height = 1000
+            else:
+                self.width = 211
+                self.height = 1000
+
             self.health = self.health_max = kwargs.get("health", 0)
             self.energy = self.energy_max = kwargs.get("energy", 0)
 

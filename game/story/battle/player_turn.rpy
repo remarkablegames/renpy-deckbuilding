@@ -55,7 +55,7 @@ screen player_hand:
                     drag_name enemy.id
                     draggable False
                     droppable True
-                    idle_child f"enemies/{enemy.image}.png"
+                    idle_child Solid((0, 0, 0, 0), xsize=enemy.width, ysize=enemy.height)
                     selected_idle_child f"enemies/{enemy.image} hover.png"
                     xalign enemies.xalign_position(enemy) yalign Enemies.YALIGN
 
