@@ -16,9 +16,9 @@ screen player_stats:
         frame:
             vbox:
                 use stat("Health", player.health, player.health_max)
-                null height 10
+                null height 15
                 use stat("Energy", player.energy, player.energy_max)
-                null height 10
+                null height 15
                 text "Money: $[money]"
 
 screen player_end_turn:
