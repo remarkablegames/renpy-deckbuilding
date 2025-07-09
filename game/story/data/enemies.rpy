@@ -75,18 +75,32 @@ init python:
             count = self.count
             index = self.enemies.index(enemy)
 
-            xalign_position = 0.5
+            if count == 1:
+                xalign_position = 0.5
 
-            if count == 2:
+            elif count == 2:
                 if index == 0:
                     xalign_position = 0.25
                 elif index == 1:
                     xalign_position = 0.75
+
             elif count == 3:
                 if index == 0:
                     xalign_position = 0.1
+                elif index == 1:
+                    xalign_position = 0.5
                 elif index == 2:
                     xalign_position = 0.9
+
+            elif count == 4:
+                if index == 0:
+                    xalign_position = 0.05
+                elif index == 1:
+                    xalign_position = 0.35
+                elif index == 2:
+                    xalign_position = 0.65
+                elif index == 3:
+                    xalign_position = 0.95
 
             return xalign_position
 
