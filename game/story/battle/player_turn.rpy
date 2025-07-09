@@ -69,14 +69,16 @@ screen player_hand:
                 pos card.get_pos()
 
                 frame:
-                    background Frame(Card.IMAGE)
+                    background Frame(card.image)
                     label card.label_cost()
-                    label card.label_description() xalign 0.5 yalign 0.5
-                    xysize Card.WIDTH, Card.HEIGHT
+                    label card.label_description():
+                        xalign 0.5
+                        yalign 0.5
+                    xysize card.width, card.height
 
                     mousearea:
-                        area (0, 0, Card.OFFSET, Card.HEIGHT)
-                        hovered Function(onhovered, draggable)
+                        area (0, 0, card.offset, card.height)
+                        hovered [Queue("sound", "ui/mouserelease1.ogg"), Function(onhovered, draggable)]
 
         drag:
             drag_name player.id

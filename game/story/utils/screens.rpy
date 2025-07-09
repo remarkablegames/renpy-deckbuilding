@@ -1,18 +1,15 @@
 screen stat(name, current, max):
     text "[name]: [current]/[max]"
     bar value AnimatedValue(current, max):
-        xalign 0.5
         xsize 300
 
 screen player_stats:
     vbox:
         yalign 1.0
-
         frame:
             padding (10, 10)
             textbutton f"{'View Draw Pile' if battle else 'View Deck'}":
                 action Show("draw_pile")
-
         frame:
             vbox:
                 use stat("Health", player.health, player.health_max)
@@ -23,29 +20,38 @@ screen player_stats:
 
 screen player_end_turn:
     frame:
-        padding (10, 10)
-        xalign 1.0 yalign 1.0
-
+        padding (10, 10) xalign 1.0 yalign 1.0
         textbutton "End Turn":
             action Function(player.end_turn)
 
-screen enemy_stats0(enemy, xalign_position=0.5):
+screen tooltip:
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+            frame:
+                background Solid((255, 255, 255, 225))
+                text tooltip color "#000"
+                xalign 0.5
+
+screen enemy_stats(enemy, xalign_pos):
     frame:
-        xalign xalign_position
+        xalign xalign_pos
         vbox:
             use stat("Health", enemy.health, enemy.health_max)
 
-screen enemy_stats1(enemy, xalign_position=0.5):
-    frame:
-        xalign xalign_position
-        vbox:
-            use stat("Health", enemy.health, enemy.health_max)
+screen enemy_stats0(enemy, xalign_pos):
+    use enemy_stats(enemy, xalign_pos)
 
-screen enemy_stats2(enemy, xalign_position=0.5):
-    frame:
-        xalign xalign_position
-        vbox:
-            use stat("Health", enemy.health, enemy.health_max)
+screen enemy_stats1(enemy, xalign_pos):
+    use enemy_stats(enemy, xalign_pos)
+
+screen enemy_stats2(enemy, xalign_pos):
+    use enemy_stats(enemy, xalign_pos)
+
+screen enemy_stats3(enemy, xalign_pos):
+    use enemy_stats(enemy, xalign_pos)
 
 screen draw_pile:
 
@@ -63,13 +69,8 @@ screen draw_pile:
 
             hbox:
                 spacing 25
-
                 for card in deck.draw_pile if battle else deck.cards:
-                    frame:
-                        background Frame(Card.IMAGE)
-                        label card.label_cost()
-                        label card.label_description() xalign 0.5 yalign 0.5
-                        xysize Card.WIDTH, Card.HEIGHT
+                    use card_frame(card)
 
         null height 50
 
@@ -77,3 +78,12 @@ screen draw_pile:
             xalign 0.5
             textbutton "Close":
                 action Hide("draw_pile")
+
+screen card_frame(card):
+    frame:
+        background Frame(card.image)
+        label card.label_cost()
+        label card.label_description():
+            xalign 0.5
+            yalign 0.5
+        xysize card.width, card.height

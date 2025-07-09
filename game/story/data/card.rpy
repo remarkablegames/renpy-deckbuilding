@@ -2,16 +2,16 @@ init python:
     from uuid import uuid4
 
     class Card:
-        IMAGE = "card.png"
-        WIDTH = 250
-        HEIGHT = 350
-        OFFSET = 80
+        width = 250
+        height = 350
+        offset = 80
 
         def __init__(self, **kwargs) -> None:
             self.id = str(uuid4())
             self.cost = kwargs.get("cost", 0)
             self.action = kwargs.get("action", {})
             self.value = kwargs.get("value", 0)
+            self.image = "card.png"
 
         def label_cost(self) -> str:
             """
@@ -23,7 +23,9 @@ init python:
             """
             Description label.
             """
-            label = "{color=[colors.black]}"
+            label = ""
+            color = "{color=[colors.black]}"
+
             for action, data in self.action.items():
                 label += action.capitalize()
                 label += f" {data['value']}"
@@ -34,7 +36,17 @@ init python:
                 if data.get("all"):
                     label += " All"
                 label += "\n"
-            return label.rstrip()
+
+            label = label.rstrip('\n')
+
+            if len(label) < 15:
+                size = "{size=*0.9}"
+            elif len(label) < 25:
+                size = "{size=*0.85}"
+            else:
+                size = "{size=*0.8}"
+
+            return size + color + label
 
         @staticmethod
         def label_upgrade(action: str, value=1) -> str:
@@ -75,15 +87,15 @@ init python:
             Calculate x-position.
             """
             x = config.screen_width / 2
-            x -= (self.WIDTH + self.OFFSET * (len(deck.hand) - 1)) / 2
-            x += deck.hand.index(self) * self.OFFSET
+            x -= (self.width + self.offset * (len(deck.hand) - 1)) / 2
+            x += deck.hand.index(self) * self.offset
             return int(x)
 
         def get_ypos(self) -> int:
             """
             Calculate y-position.
             """
-            return config.screen_height - self.HEIGHT
+            return config.screen_height - self.height
 
         def get_pos(self) -> int:
             """
