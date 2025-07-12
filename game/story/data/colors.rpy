@@ -1,4 +1,4 @@
-init python:
+init -1 python:
     class Colors:
         attack = "#ee4b2b"
         black = "#000"
@@ -6,4 +6,4 @@ init python:
         heal = "#af0"
         white = "#fff"
 
-default colors = Colors()
+    colors = Colors()
